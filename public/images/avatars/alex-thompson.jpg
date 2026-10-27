@@ -1,0 +1,6 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#fef3e2" rx="100"/>
+  <circle cx="100" cy="70" r="35" fill="#f59e0b"/>
+  <path d="M100 125 Q65 125 50 150 Q50 175 100 175 Q150 175 150 150 Q135 125 100 125" fill="#f59e0b"/>
+  <text x="100" y="195" font-family="Arial, sans-serif" font-size="10" fill="#d97706" text-anchor="middle">Marcus Johnson</text>
+</svg>

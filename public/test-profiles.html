@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Student Profiles</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        button { margin: 5px; padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
+        button.active { background: #28a745; }
+        .profile { border: 1px solid #ccc; margin: 10px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h1>Student Profiles Test</h1>
+    <div>
+        <button onclick="testFilter('')" id="all">All Majors</button>
+        <button onclick="testFilter('Computer Science')" id="cs">Computer Science</button>
+        <button onclick="testFilter('Business Administration')" id="ba">Business Administration</button>
+        <button onclick="testFilter('Engineering')" id="eng">Engineering</button>
+        <button onclick="testFilter('Psychology')" id="psy">Psychology</button>
+        <button onclick="testFilter('Biology')" id="bio">Biology</button>
+        <button onclick="testFilter('Art & Design')" id="art">Art & Design</button>
+    </div>
+    <div id="results"></div>
+
+    <script>
+        async function testFilter(major) {
+            // Update button states
+            document.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+            
+            if (major === '') document.getElementById('all').classList.add('active');
+            else if (major === 'Computer Science') document.getElementById('cs').classList.add('active');
+            else if (major === 'Business Administration') document.getElementById('ba').classList.add('active');
+            else if (major === 'Engineering') document.getElementById('eng').classList.add('active');
+            else if (major === 'Psychology') document.getElementById('psy').classList.add('active');
+            else if (major === 'Biology') document.getElementById('bio').classList.add('active');
+            else if (major === 'Art & Design') document.getElementById('art').classList.add('active');
+
+            const url = major ? `/api/v1/student-profiles?major=${encodeURIComponent(major)}` : '/api/v1/student-profiles';
+            console.log('Fetching:', url);
+            
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                console.log('Response:', data);
+                
+                const results = document.getElementById('results');
+                results.innerHTML = '<h2>Results:</h2>' + 
+                    data.data.map(profile => 
+                        `<div class="profile">
+                            <h3>${profile.name}</h3>
+                            <p>Major: ${profile.major}</p>
+                            <p>Year: ${profile.graduation_year}</p>
+                            <p>Featured: ${profile.is_featured ? 'Yes' : 'No'}</p>
+                        </div>`
+                    ).join('');
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('results').innerHTML = '<p>Error loading profiles</p>';
+            }
+        }
+
+        // Test all majors on load
+        testFilter('');
+    </script>
+</body>
+</html>
+</text>
+</invoke>

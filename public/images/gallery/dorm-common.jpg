@@ -1,0 +1,10 @@
+<svg width="800" height="600" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="600" fill="#f8fafc"/>
+  <rect x="50" y="50" width="700" height="500" fill="#e2e8f0" rx="10"/>
+  <rect x="100" y="100" width="600" height="400" fill="#cbd5e1" rx="5"/>
+  <text x="400" y="280" font-family="Arial, sans-serif" font-size="24" fill="#475569" text-anchor="middle">Campus Library</text>
+  <text x="400" y="320" font-family="Arial, sans-serif" font-size="16" fill="#64748b" text-anchor="middle">Study Session</text>
+  <circle cx="200" cy="180" r="20" fill="#94a3b8"/>
+  <circle cx="400" cy="200" r="20" fill="#94a3b8"/>
+  <circle cx="600" cy="190" r="20" fill="#94a3b8"/>
+</svg>

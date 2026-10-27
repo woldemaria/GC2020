@@ -1,0 +1,6 @@
+<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <rect width="200" height="200" fill="#ecfdf5" rx="100"/>
+  <circle cx="100" cy="70" r="35" fill="#059669"/>
+  <path d="M100 125 Q65 125 50 150 Q50 175 100 175 Q150 175 150 150 Q135 125 100 125" fill="#059669"/>
+  <text x="100" y="195" font-family="Arial, sans-serif" font-size="10" fill="#047857" text-anchor="middle">Michael Chen</text>
+</svg>

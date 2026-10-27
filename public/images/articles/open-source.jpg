@@ -1,0 +1,6 @@
+<svg width="800" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="400" fill="#8b5cf6"/>
+  <text x="400" y="180" font-family="Arial, sans-serif" font-size="28" fill="white" text-anchor="middle">Open Source Education</text>
+  <text x="400" y="220" font-family="Arial, sans-serif" font-size="16" fill="#c4b5fd" text-anchor="middle">Technology revolutionizing learning</text>
+  <rect x="50" y="50" width="700" height="300" stroke="#7c3aed" stroke-width="3" fill="none" rx="10"/>
+</svg>
