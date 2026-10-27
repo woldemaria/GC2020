@@ -7,9 +7,9 @@ use App\Http\Controllers\Auth\RegisterController;
 
 // Authentication routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::get('/signup', [RegisterController::class, 'showRegistrationForm'])->name('signup');
+Route::redirect('/register', '/login')->name('register');
+Route::redirect('/signup', '/login');
 Route::post('/api/login', [LoginController::class, 'login'])->middleware('web');
-Route::post('/api/register', [RegisterController::class, 'register'])->middleware('web');
 Route::post('/api/logout', [LoginController::class, 'logout'])->middleware('web');
 Route::get('/api/user', [LoginController::class, 'user'])->middleware('web');
 

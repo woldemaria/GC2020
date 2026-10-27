@@ -105,16 +105,23 @@
               </div>
 
               <!-- Camera Viewfinder Container -->
-              <div class="relative bg-slate-900 rounded-2xl overflow-hidden shadow-inner text-white min-h-[320px] flex flex-col items-center justify-center p-4">
+              <div class="relative bg-slate-900 rounded-2xl overflow-hidden shadow-inner text-white min-h-[300px] flex flex-col items-center justify-center p-4">
                 <!-- Live Scanner View -->
-                <div id="qr-reader" class="w-full max-w-sm rounded-xl overflow-hidden bg-black" :class="{ 'hidden': !isScanning }"></div>
-
-                <!-- Animated Frame Overlay when scanning -->
-                <div v-if="isScanning" class="scanner-laser-line"></div>
+                <div v-show="isScanning" class="w-full max-w-sm mx-auto relative rounded-2xl overflow-hidden border-2 border-blue-500/50 shadow-2xl bg-black my-2">
+                  <div id="qr-reader" class="w-full min-h-[260px]"></div>
+                  <div class="scanner-laser-line"></div>
+                  <!-- Targeting Reticle -->
+                  <div class="pointer-events-none absolute inset-0 rounded-2xl border border-blue-400/20">
+                    <div class="absolute top-2 left-2 w-6 h-6 border-t-4 border-l-4 border-blue-400 rounded-tl-lg"></div>
+                    <div class="absolute top-2 right-2 w-6 h-6 border-t-4 border-r-4 border-blue-400 rounded-tr-lg"></div>
+                    <div class="absolute bottom-2 left-2 w-6 h-6 border-b-4 border-l-4 border-blue-400 rounded-bl-lg"></div>
+                    <div class="absolute bottom-2 right-2 w-6 h-6 border-b-4 border-r-4 border-blue-400 rounded-br-lg"></div>
+                  </div>
+                </div>
 
                 <!-- Idle State: Camera Not Active -->
                 <div v-if="!isScanning" class="text-center py-6 px-4 max-w-md">
-                  <div class="w-20 h-20 mx-auto rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center mb-4 text-blue-400">
+                  <div class="w-20 h-20 mx-auto rounded-full bg-slate-800/80 border border-slate-700 flex items-center justify-center mb-4 text-blue-400 shadow-inner">
                     <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 4v1m6 11a9 9 0 11-18 0 9 9 0 0118 0zm-9 7v1"/>
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 7V5a2 2 0 012-2h2m10 0h2a2 2 0 012 2v2m0 10v2a2 2 0 01-2 2h-2m-10 0H5a2 2 0 01-2-2v-2"/>
@@ -170,27 +177,49 @@
                 </div>
               </div>
 
-              <!-- Upload QR Image Alternative Option -->
+              <!-- Upload / Snap QR Image Alternative Options -->
               <div class="mt-4 pt-4 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm">
-                <span class="text-gray-500">{{ $t('certificate.haveQRFile') }}</span>
-                <input
-                  type="file"
-                  ref="qrFileInput"
-                  accept="image/*"
-                  class="hidden"
-                  @change="handleFileUploadScan"
-                >
-                <button
-                  type="button"
-                  @click="$refs.qrFileInput.click()"
-                  :disabled="isFileScanning"
-                  class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold rounded-lg transition disabled:opacity-50"
-                >
-                  <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                  </svg>
-                  <span>{{ isFileScanning ? $t('certificate.readingImage') : $t('certificate.uploadQR') }}</span>
-                </button>
+                <span class="text-gray-500 text-xs sm:text-sm">{{ $t('certificate.haveQRFile') }}</span>
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                  <input
+                    type="file"
+                    ref="qrFileInput"
+                    accept="image/*"
+                    class="hidden"
+                    @change="handleFileUploadScan"
+                  >
+                  <input
+                    type="file"
+                    ref="qrCameraCapture"
+                    accept="image/*"
+                    capture="environment"
+                    class="hidden"
+                    @change="handleFileUploadScan"
+                  >
+                  <button
+                    type="button"
+                    @click="$refs.qrCameraCapture.click()"
+                    :disabled="isFileScanning"
+                    class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 text-xs font-semibold rounded-lg border border-emerald-200 transition"
+                  >
+                    <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span>Snap Photo</span>
+                  </button>
+                  <button
+                    type="button"
+                    @click="$refs.qrFileInput.click()"
+                    :disabled="isFileScanning"
+                    class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition"
+                  >
+                    <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <span>{{ isFileScanning ? $t('certificate.readingImage') : $t('certificate.uploadQR') }}</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -756,11 +785,15 @@ export default {
       this.cameraError = null
       this.scanSuccessMessage = ''
       this.isInitializingScanner = true
+      this.isScanning = true
+      await this.$nextTick()
 
       try {
         if (!this.html5QrCode) {
           this.html5QrCode = new Html5Qrcode('qr-reader')
         }
+
+        let cameraConfig = { facingMode: 'environment' }
 
         // Enumerate video devices to allow front/back camera toggling
         try {
@@ -768,21 +801,19 @@ export default {
           if (devices && devices.length > 0) {
             this.availableCameras = devices
             this.hasMultipleCameras = devices.length > 1
+            const backCamera = devices.find(d => /back|rear|environment/i.test(d.label)) || devices[0]
+            cameraConfig = { deviceId: { exact: backCamera.id } }
           }
         } catch (e) {
-          console.warn('Could not list cameras:', e)
+          console.warn('Could not list cameras, using environment mode:', e)
         }
-
-        const cameraConfig = this.availableCameras.length > 0
-          ? { deviceId: { exact: this.availableCameras[this.currentCameraIndex % this.availableCameras.length].id } }
-          : { facingMode: 'environment' }
 
         const config = {
           fps: 15,
           qrbox: (viewfinderWidth, viewfinderHeight) => {
             const minEdge = Math.min(viewfinderWidth, viewfinderHeight)
             const qrEdge = Math.floor(minEdge * 0.75)
-            return { width: Math.max(qrEdge, 200), height: Math.max(qrEdge, 200) }
+            return { width: Math.max(qrEdge, 180), height: Math.max(qrEdge, 180) }
           },
           aspectRatio: 1.0
         }
@@ -797,6 +828,14 @@ export default {
             // Frame scanned without QR match - ignore
           }
         )
+      } catch (err) {
+        console.error('Failed to start camera:', err)
+        this.cameraError = this.$t('certificate.cameraPermissionError')
+        this.isScanning = false
+      } finally {
+        this.isInitializingScanner = false
+      }
+    },
 
         this.isScanning = true
       } catch (err) {
